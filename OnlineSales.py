@@ -40,20 +40,22 @@ conf_matrix = confusion_matrix(y_test, y_pred)
 class_report = classification_report(y_test, y_pred)
 
 # 4. Visualization
-plt.figure(figsize=(8, 6))
+st.header("Confusion Matrix")
+fig=plt.figure(figsize=(8, 6))
 sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=label_encoders['Payment Method'].classes_, yticklabels=label_encoders['Payment Method'].classes_)
 plt.title('Confusion Matrix')
 plt.xlabel('Predicted')
 plt.ylabel('Actual')
-plt.show()
+st.pyplot(fig)
 
 # Output results
-print("Classification Report:")
-print(class_report)
+st.subheader("Classification Report:")
+st.markdown(class_report)
 
 # Graph: Impact of Payment Methods on Sales
+st.header("Impact of Payment Methods on Sales")
 payment_impact = data.groupby('Payment Method')['Total Revenue'].sum().sort_values(ascending=False)
-plt.figure(figsize=(10, 6))
+fig1 = plt.figure(figsize=(10, 6))
 payment_impact.plot(kind='bar', color='skyblue')
 plt.title('Impact of Payment Methods on Total Sales')
 plt.xlabel('Payment Method')
@@ -61,10 +63,12 @@ plt.ylabel('Total Revenue')
 plt.xticks(rotation=45)
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tight_layout()
-plt.show()
+st.pyplot(fig1)
+
 
 # Identification des produits les plus vendus dans chaque catégorie
+st.header("Top product by Category")
 top_products = data.groupby(['Product Category', 'Product Name']).sum(numeric_only=True)['Units Sold']
 top_products = top_products.sort_values(ascending=False).groupby(level=0).head(1)
-print("Produits les plus vendus par catégorie :\n", top_products)
+st.write("Produits les plus vendus par catégorie :\n", top_products)
 
