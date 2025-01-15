@@ -1,2 +1,2 @@
 seaborn
-sickit-learn
+scikit-learn
